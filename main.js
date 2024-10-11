@@ -8,20 +8,28 @@ let varBasica = ['z', 'f1', 'f2', 'f3']
 
 let variaveis = ['z', 'x1', 'x2', 'f1', 'f2', 'f3']
 
-function simplex(coeficientes) {
+function simplex(coeficientes, variaveis, varBasica) {
     console.table(coeficientes);
-
+    console.table(varBasica)
     let indexColunaPivo = encontrarColunaPivo(coeficientes);
 
-    if (indexColunaPivo == null) return coeficientes;
-    
+    if (indexColunaPivo == null) {
+        console.log(`Z = ${coeficientes[0][coeficientes[0].length - 1]} Para:`)
+        for(let i = 1 ; i < varBasica.length ; i++){
+            console.log(`${varBasica[i]} = ${coeficientes[i][coeficientes[0].length - 1]}`)
+        }
+        return coeficientes;
+    }
+
     let indexLinhaPivo = encontrarLinhaPivo(coeficientes, indexColunaPivo);
-    
+
+    varBasica[indexLinhaPivo] = variaveis[indexColunaPivo]
+
     coeficientes = atualizarLinhaPivo(coeficientes, indexLinhaPivo, indexColunaPivo);
-    
+
     coeficientes = atualizarLinhasRestantes(coeficientes, indexLinhaPivo, indexColunaPivo);
 
-    return simplex(coeficientes);
+    return simplex(coeficientes, variaveis, varBasica);
 }
 
 function encontrarColunaPivo(coeficientes) {
@@ -78,5 +86,5 @@ function atualizarLinhasRestantes(coeficientes, linhaPivo, colunaPivo) {
 }
 
 
-simplex(coeficientes);
+simplex(coeficientes, variaveis, varBasica);
 
